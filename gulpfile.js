@@ -50,7 +50,6 @@ gulp.task("browser-sync", () => {
     uf: false
   });
 
-  //browserSync.watch(path.buildPath).on("change", reload);
   browserSync.watch(path.buildPath).on("change", reload);
 
 });
