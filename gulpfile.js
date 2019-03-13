@@ -50,7 +50,7 @@ gulp.task("browser-sync", () => {
     uf: false
   });
 
-  browserSync.watch(path.buildPath).on("change", reload);
+  browserSync.watch(path.sourcePath).on("change", reload);
 
 });
 
@@ -64,7 +64,7 @@ gulp.task('html', () => {
 
 // SCSS to CSS
 gulp.task("css", () => {
-  return gulp.src('./src/sass/**/*.scss', { since: gulp.lastRun("css")})
+  return gulp.src(path.sourcePath + path.scssPath + path.scssPattern, { since: gulp.lastRun("css")})
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(sass({outputStyle: "expanded"}).on("error", sass.logError))
@@ -140,19 +140,22 @@ gulp.task("copy", () => {
 });
 
 // Clean build
-gulp.task("build:clean", () => {
+gulp.task("clean", () => {
   return clean(path.buildPath);
 });
 
 // Build
-gulp.task("build", gulp.series("copy", "compress", "html", "css", "libs-js", "js"));
+gulp.task("build", gulp.series("clean", "copy", "compress", "html", "css", "libs-js", "js"));
 
 // Watch changes
 gulp.task("watch", () => {
-  gulp.watch('./src/sass/**/*.scss', gulp.series("css"));
+  gulp.watch(path.sourcePath + path.scssPath + path.scssPattern, gulp.series("css"));
   gulp.watch(path.sourcePath + path.jsPath + path.jsModulesPath + path.jsPattern, gulp.series("js"));
   gulp.watch(path.sourcePath + path.htmlPattern, gulp.series("html"));
 });
 
 // Build and watch
-gulp.task("build:watch", gulp.series("build", gulp.parallel("browser-sync", "watch")));
+//gulp.task("build:watch", gulp.series("build", gulp.parallel("browser-sync", "watch")));
+
+// Dev task - watch and browser-sync
+gulp.task("dev", gulp.series("html", "css", "js", gulp.parallel("browser-sync", "watch")));
