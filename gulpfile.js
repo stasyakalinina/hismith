@@ -154,8 +154,5 @@ gulp.task("watch", () => {
   gulp.watch(path.sourcePath + path.htmlPattern, gulp.series("html"));
 });
 
-// Build and watch
-//gulp.task("build:watch", gulp.series("build", gulp.parallel("browser-sync", "watch")));
-
 // Dev task - watch and browser-sync
 gulp.task("dev", gulp.series("html", "css", "js", gulp.parallel("browser-sync", "watch")));

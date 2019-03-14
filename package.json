@@ -20,7 +20,7 @@
     "gulp-uglify": "^3.0.1"
   },
   "scripts": {
-    "build": "gulp clean && gulp build",
+    "build": "gulp build:clean && gulp build",
     "start": "gulp dev"
   }
 }
